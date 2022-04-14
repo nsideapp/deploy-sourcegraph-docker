@@ -69,7 +69,7 @@ services:
   caddy:
     container_name: caddy
     image: 'index.docker.io/caddy/caddy:alpine@sha256:83d9aa7a5f1bbcc0fc1b4720c183a5ec53dae7dc5d9fa555daf3db345010e7f9'
-    cpus: 4
+    cpus: 2
     mem_limit: '4g'
     environment:
       - 'XDG_DATA_HOME=/caddy-storage/data'
@@ -121,8 +121,8 @@ services:
   sourcegraph-frontend-0:
     container_name: sourcegraph-frontend-0
     image: 'index.docker.io/sourcegraph/frontend:3.38.1@sha256:ffa092eadcfa4f88f3237ada173a962521ba97066af2cb572f0ac740a18cbf10'
-    cpus: 4
-    mem_limit: '8g'
+    cpus: 2
+    mem_limit: '4g'
     environment:
       - DEPLOY_TYPE=docker-compose
       - JAEGER_AGENT_HOST=jaeger
@@ -164,8 +164,8 @@ services:
   sourcegraph-frontend-internal:
     container_name: sourcegraph-frontend-internal
     image: 'index.docker.io/sourcegraph/frontend:3.38.1@sha256:ffa092eadcfa4f88f3237ada173a962521ba97066af2cb572f0ac740a18cbf10'
-    cpus: 4
-    mem_limit: '8g'
+    cpus: 2
+    mem_limit: '4g'
     environment:
       - DEPLOY_TYPE=docker-compose
       - PGHOST=pgsql
@@ -210,8 +210,8 @@ services:
   gitserver-0:
     container_name: gitserver-0
     image: 'index.docker.io/sourcegraph/gitserver:3.38.1@sha256:f4afde31c06adf8f9b1e5b6dd1768934be5b5e71a2eff111d4e0955288ee1d85'
-    cpus: 4
-    mem_limit: '8g'
+    cpus: 2
+    mem_limit: '4g'
     environment:
       - 'SRC_FRONTEND_INTERNAL=sourcegraph-frontend-internal:3090'
       - JAEGER_AGENT_HOST=jaeger
@@ -233,8 +233,8 @@ services:
   zoekt-indexserver-0:
     container_name: zoekt-indexserver-0
     image: 'index.docker.io/sourcegraph/search-indexer:3.38.1@sha256:5460a1aa43825d7241d9b203bc98eadf067dd986fc4a3887311425e5723ad4b7'
-    cpus: 8
-    mem_limit: '16g'
+    cpus: 2
+    mem_limit: '4g'
     environment:
       - 'HOSTNAME=zoekt-webserver-0:6070'
       - 'SRC_FRONTEND_INTERNAL=http://sourcegraph-frontend-internal:3090'
@@ -254,8 +254,8 @@ services:
   zoekt-webserver-0:
     container_name: zoekt-webserver-0
     image: 'index.docker.io/sourcegraph/indexed-searcher:3.38.1@sha256:0c2b31f1b5be6e851676c6df678dee74fd51733a4c230942a52876384f263e6b'
-    cpus: 8
-    mem_limit: '50g'
+    cpus: 2
+    mem_limit: '4g'
     environment:
       - 'HOSTNAME=zoekt-webserver-0:6070'
     healthcheck:
@@ -347,7 +347,7 @@ services:
   repo-updater:
     container_name: repo-updater
     image: 'index.docker.io/sourcegraph/repo-updater:3.38.1@sha256:69089ffe66361fbbb9bb5c7655dd605a8f9fdca008e810778b875c5a0eb075fc'
-    cpus: 4
+    cpus: 2
     mem_limit: '4g'
     environment:
       - 'SRC_FRONTEND_INTERNAL=sourcegraph-frontend-internal:3090'
@@ -368,7 +368,7 @@ services:
   worker:
     container_name: worker
     image: 'index.docker.io/sourcegraph/worker:3.38.1@sha256:4b901440c33f9e8164caea744f6af2e492a3a11b00db11083c1ab9e6e27e8fc6'
-    cpus: 4
+    cpus: 2
     mem_limit: '4g'
     environment:
       - 'SRC_FRONTEND_INTERNAL=sourcegraph-frontend-internal:3090'
@@ -392,8 +392,8 @@ services:
   syntect-server:
     container_name: syntect-server
     image: 'index.docker.io/sourcegraph/syntax-highlighter:3.38.1@sha256:8aa2dafdbb6f6110f0fab4f736ef2e067b9b67ec862ba1b3659ef271cfd0cbaa'
-    cpus: 4
-    mem_limit: '6g'
+    cpus: 2
+    mem_limit: '4g'
     healthcheck:
       test: "wget -q 'http://127.0.0.1:9238/health' -O /dev/null || exit 1"
       interval: 5s
@@ -439,8 +439,8 @@ services:
   prometheus:
     container_name: prometheus
     image: 'index.docker.io/sourcegraph/prometheus:3.38.1@sha256:6b87f3f27ed8f1dd4b174881c7b05ce1cfff952accd47ed4a243f7c4f455f0cf'
-    cpus: 4
-    mem_limit: '8g'
+    cpus: 2
+    mem_limit: '4g'
     volumes:
       - 'prometheus-v2:/prometheus'
       - '../prometheus:/sg_prometheus_add_ons'
@@ -541,7 +541,7 @@ services:
   pgsql:
     container_name: pgsql
     image: 'index.docker.io/sourcegraph/postgres-12-alpine:3.38.1@sha256:7c26495d210b33755aa771a37fbd07452ff84ec03126d56b699fbc62484d2b63'
-    cpus: 4
+    cpus: 2
     mem_limit: '2g'
     healthcheck:
       test: '/liveness.sh'
@@ -586,7 +586,7 @@ services:
   codeintel-db:
     container_name: codeintel-db
     image: 'index.docker.io/sourcegraph/codeintel-db:3.38.1@sha256:1827803cfe945947c8241662868ceee75f8c012f465a8e83857254160d94491f'
-    cpus: 4
+    cpus: 2
     mem_limit: '2g'
     healthcheck:
       test: '/liveness.sh'
@@ -635,7 +635,7 @@ services:
   codeinsights-db:
     container_name: codeinsights-db
     image: 'index.docker.io/sourcegraph/codeinsights-db:3.38.1@sha256:d370303e464af5fa4fc46f7dca2f2e7875cbe220b9c13f2f7fc1a1f1c2692951'
-    cpus: 4
+    cpus: 2
     mem_limit: '2g'
     environment:
       - POSTGRES_PASSWORD=password
